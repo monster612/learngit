@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      #div1 {
+        width: 198px;
+        height: 66px;
+        padding: 10px;
+        border: 1px solid #aaaaaa;
+      }
+      #file{
+        width: 198px;
+        height: 66px;
+        padding: 10px;
+        border: 1px solid #aaaaaa;
+
+      }
+      img{
+        width: 198px;
+        height: 66px;
+      }
+      #p1{
+        background-color: aquamarine;
+        width: 200px;
+      }
+      #p2{
+        background-color: rgb(157, 117, 192);
+        width: 200px;
+      }
+      #p3{
+        background-color: rgb(203, 144, 145);
+        width: 200px;
+      }
+    </style>
+    <script type="text/javascript">
+      function allowDrop(ev) {
+        // 默认无法放下，阻止默认处理方式
+        ev.preventDefault();
+      }
+
+
+      // setData将元素id转变为纯文本数据
+      // 这样可以在存放元素的目标区域ondrop获取ID
+      function drag(ev) {
+        ev.dataTransfer.setData("Text", ev.target.id);
+      }
+
+      function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("Text");
+      }
+       function drag1(ev1) {
+         ev1.dataTransfer.effectAllowed="move";
+         ev1.dataTransfer.setData("Text", ev1.target.id);
+       }
+       function drag2(ev2) {
+         ev2.dataTransfer.effectAllowed="copy";
+         ev2.dataTransfer.setData("Text", ev2.target.id);
+       }
+       function drag3(ev3) {
+         ev3.dataTransfer.effectAllowed="link";
+         ev3.dataTransfer.setData("Text", ev3.target.id);
+       }
+
+       function dropfile(ev) {
+         //解禁默认状态
+         ev.preventDefault();
+         //获取列表文件
+         var file= ev.dataTransfer.files;
+         var filestatus;
+         console.log(file)
+         var f;
+         for(var i=0;i<file.length;i++){
+           f=file[i];
+           filestatus+='<li>文件名称：'+f.name+'<br>文件类型：'+f.type+'<br>文件大小：'+f.size+'<li/>'
+         }
+         var status=document.getElementById("status");
+         status.innerHTML='<ul>'+filestatus+'<ul/>';
+
+
+       }
+      
+    </script>
+  </head>
+  <body>
+    <p>请把 W3School 的图片拖放到矩形中：</p>
+
+    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <br />
+    <!-- drag属性设置为true代表元素可拖拽 -->
+    <img
+      id="drag1"
+      src="dragimg.jpg"
+      draggable="true"
+      ondragstart="drag(event)"
+    />
+
+    <!-- 分别定义三种不同的拖拽效果 -->
+    <p id="p1" draggable="true" ondragstart="drag1(event)">拖拽效果move</p>
+    <p id="p2" draggable="true" ondragstart="drag2(event)">拖拽效果copy</p>
+    <p id="p3" draggable="true" ondragstart="drag3(event)">拖拽效果link</p>
+
+    <div id="file" ondragover="allowDrop(event)" ondrop="dropfile(event)"></div>
+    <div id="status"></div>
+  </body>
+</html>
